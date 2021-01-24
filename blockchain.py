@@ -8,8 +8,11 @@ class Blockchain(object):
         self.chain = []
         self.current_transactions = []
 
-    def new_block(self):
-        # Create a new Block and adds it to the chain
+        # Create origin block
+        self.new_block(previous_hash=1, proof=100)
+
+    def new_block(self, proof, previous_hash=None):
+        #Create a new block for the blockchain
         pass
 
     def new_transaction(self, sender, recipient, amount):
