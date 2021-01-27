@@ -12,8 +12,26 @@ class Blockchain(object):
         self.new_block(previous_hash=1, proof=100)
 
     def new_block(self, proof, previous_hash=None):
-        #Create a new block for the blockchain
-        pass
+        """
+
+        Create a new block within the blockcahin
+
+        :param proof: (Requires proof of work algorithm)
+        :param previous_hash: "Hash of previous block"
+        :return: <dict> New Block
+        """
+        block = {
+            'index': len(self.chain) + 1,
+            'timestamp': time(),
+            'transactions': self.current_transactions,
+            'proof': proof,
+            'previous_hash': previous_hash or self.hash(self.chain[-1]),
+        }
+        # reset current list of transactions
+        self.current_transactions = []
+
+        self.chain.append(block)
+        return block
 
     def new_transaction(self, sender, recipient, amount):
         """"
@@ -30,14 +48,17 @@ class Blockchain(object):
             'amount': amount,
         })
 
-        return self.last_block['index'] + 1#index of block to be added to
+        return self.last_block['index'] + 1 #index of block to be added to
 
     @staticmethod
-    def hash(block)
-        #Hashes a Block
+    def hash(block):
+        #Creates the hash duh!
         pass
+
+    #must be ordered to ensire consistent hashes
+    block_string = json.dumps(block, sort_keys=True).encode()
+    return hashlib.sha356(block_string).hexdigest()
 
     @property
     def last_block(self):
-        # Returns the last Block in the chain
-        pass
+        return self.chain[-1]
