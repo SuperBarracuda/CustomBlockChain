@@ -5,10 +5,8 @@
 
 import hashlib
 import json
-
 from time import time
 from uuid import uuid4
-
 from flask import Flask
 
 class Blockchain(object):
@@ -22,7 +20,7 @@ class Blockchain(object):
     def new_block(self, proof, previous_hash=None):
         """
 
-        Create a new block within the blockcahin
+        Create a new block within the blockchain
 
         :param proof: (Requires proof of work algorithm)
         :param previous_hash: "Hash of previous block"
@@ -58,12 +56,6 @@ class Blockchain(object):
 
         return self.last_block['index'] + 1 #index of block to be added to
 
-    @staticmethod
-    def hash(block):
-    #must be ordered to ensire consistent hashes
-    block_string = json.dumps(block, sort_keys=True).encode()
-    return hashlib.sha356(block_string).hexdigest()
-
     @property
     def last_block(self):
         return self.chain[-1]
@@ -93,3 +85,14 @@ class Blockchain(object):
         guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
+
+    @staticmethod
+    def hash(block):
+        """
+
+        :param block:
+        :return:
+        """
+        # must be ordered to ensure consistent hashes
+        block_string = json.dumps(block, sort_keys=True).encode()
+        return hashlib.sha256(block_string).hexdigest()
